@@ -1,4 +1,6 @@
 import 'package:client/core/theme/app_pallete.dart';
+import 'package:client/features/auth/repositories/auth_remote_repositories.dart';
+import 'package:client/features/home/view/pages/login_page.dart';
 import 'package:client/features/home/view/widgets/auth_gradient_button.dart';
 import 'package:client/features/home/view/widgets/custom_field.dart';
 import 'package:flutter/material.dart';
@@ -67,24 +69,39 @@ class _SignupPageState extends State<SignupPage> {
               ),
               AuthGradientButton(
                 buttonText: 'Sign Up',
-                onTap: () {},
+                onTap: () async {
+                  await AuthRemoteRepositories().signup(
+                      name: nameController.text,
+                      email: emailController.text,
+                      password: passwordController.text);
+                },
               ),
               const SizedBox(
                 height: 20,
               ),
-              RichText(
-                text: TextSpan(
-                  style: Theme.of(context).textTheme.titleMedium,
-                  text: 'Already have an account? ',
-                  children: const [
-                    TextSpan(
-                      text: 'Sign In',
-                      style: TextStyle(
-                        color: Pallete.gradient2,
-                        fontWeight: FontWeight.bold,
-                      ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
                     ),
-                  ],
+                  );
+                },
+                child: RichText(
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.titleMedium,
+                    text: 'Already have an account? ',
+                    children: const [
+                      TextSpan(
+                        text: 'Sign In',
+                        style: TextStyle(
+                          color: Pallete.gradient2,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],
